@@ -1,0 +1,27 @@
+{
+  "name": "api-login-genai",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "test": "mocha --recursive tests/integration"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "bcrypt": "5.1.1",
+    "chai": "4.4.1",
+    "dotenv": "16.4.5",
+    "express": "4.19.2",
+    "js-yaml": "4.1.0",
+    "jsonwebtoken": "9.0.2",
+    "mocha": "10.6.0",
+    "mysql2": "3.10.3",
+    "supertest": "7.0.0",
+    "swagger-jsdoc": "6.2.8",
+    "swagger-ui-express": "5.0.1"
+  }
+}

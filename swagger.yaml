@@ -1,0 +1,207 @@
+# swagger.yaml
+
+openapi: 3.0.0
+info:
+  title: API Login GENAI
+  version: 1.0.0
+  description: API de autenticação e gerenciamento de usuários com bloqueio de conta e redefinição de senha.
+servers:
+  - url: http://localhost:3000/api
+    description: Servidor de Desenvolvimento
+tags:
+  - name: Authentication
+    description: User authentication and authorization
+paths:
+  /auth/register:
+    post:
+      summary: Register a new user
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        201:
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User registered successfully!
+        409:
+          description: Username already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /auth/login:
+    post:
+      summary: Authenticate a user and get a JWT token
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        200:
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginSuccess'
+        400:
+          description: Invalid credentials or account locked temporarily
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        403:
+          description: Account locked permanently or for a longer duration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /auth/forgot-password:
+    post:
+      summary: Request a password reset token
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordRequest'
+      responses:
+        200:
+          description: Password reset token generated (in a real app, sent by email)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForgotPasswordResponse'
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /auth/reset-password:
+    post:
+      summary: Reset password using a valid token
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequest'
+      responses:
+        200:
+          description: Password has been reset successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Password has been reset successfully.
+        400:
+          description: Invalid or expired reset token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    User:
+      type: object
+      required: ['username', 'password']
+      properties:
+        username:
+          type: string
+          description: Nome de usuário
+          example: testuser
+        password:
+          type: string
+          description: Senha do usuário
+          example: Password123!
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Invalid credentials.
+    LoginSuccess:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Login successful!
+        token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+    ForgotPasswordRequest:
+      type: object
+      required: ['username']
+      properties:
+        username:
+          type: string
+          description: Nome de usuário para o qual a senha será redefinida
+          example: testuser
+    ForgotPasswordResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Password reset token generated.
+        resetToken:
+          type: string
+          description: Token de redefinição de senha (em um app real, enviado por email)
+          example: random_reset_token_string
+    ResetPasswordRequest:
+      type: object
+      required: ['token', 'newPassword']
+      properties:
+        token:
+          type: string
+          description: Token de redefinição de senha recebido
+          example: random_reset_token_string
+        newPassword:
+          type: string
+          description: Nova senha do usuário
+          example: NewPassword456!

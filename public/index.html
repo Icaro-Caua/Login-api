@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - API GENAI</title> <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Login</h1>
+        <form id="loginForm">
+            <div class="input-group">
+                <label for="username">Usuário:</label> <input type="text" id="username" name="username" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Senha:</label> <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Entrar</button> </form>
+        <p id="message" class="message"></p>
+        <p>Não tem uma conta? <a href="#" id="showRegister">Cadastre-se aqui</a></p> <h1 style="margin-top: 40px;">Cadastro</h1> <form id="registerForm" style="display: none;">
+            <div class="input-group">
+                <label for="regUsername">Usuário:</label> <input type="text" id="regUsername" name="username" required>
+            </div>
+            <div class="input-group">
+                <label for="regPassword">Senha:</label> <input type="password" id="regPassword" name="password" required>
+            </div>
+            <button type="submit">Cadastrar</button> </form>
+        <p id="registerMessage" class="message"></p>
+        <p>Já tem uma conta? <a href="#" id="showLogin">Fazer Login</a></p> </div>
+    <script src="script.js"></script>
+</body>
+</html>
